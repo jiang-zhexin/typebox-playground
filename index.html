@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playground</title>
+  <script type="module" src="/src/setup.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+
+<body>
+  <div class="navbar bg-base-100 shadow-sm">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl">Typebox Playground</a>
+    </div>
+
+    <div class="flex-none">
+      <button class="btn btn-ghost" onclick="resetCheck.showModal()">Reset Code</button>
+      <dialog id="resetCheck" class="modal">
+        <div class="modal-box">
+          <p class="py-4">Do you really want to clear your code?</p>
+          <form method="dialog">
+            <button id="reset" class="btn">yes</button>
+          </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      <button class="btn btn-ghost" onclick="tip.showModal()">TIP</button>
+      <dialog id="tip" class="modal">
+        <div class="modal-box">
+          <ul>
+            <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">Space</kbd> to get autocompletion</li>
+            <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">S</kbd> to print result</li>
+          </ul>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      <a class="btn btn-link" href="https://github.com/jiang-zhexin/typebox" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <div class="flex w-screen" style="height:calc(100vh - 64px)">
+    <div id="editor" class="max-w-55/100 min-w-55/100"></div>
+    <div id="result" class="max-w-45/100 min-w-45/100"></div>
+  </div>
+</body>
+
+</html>
