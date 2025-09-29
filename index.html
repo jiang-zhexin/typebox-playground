@@ -13,36 +13,10 @@
 <body>
   <div class="navbar bg-base-100 shadow-sm">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl">Typebox Playground</a>
+      <h1 class="text-xl font-bold mx-4">Typebox Playground</h1>
     </div>
 
     <div class="flex-none">
-      <button class="btn btn-ghost" onclick="resetCheck.showModal()">Reset Code</button>
-      <dialog id="resetCheck" class="modal">
-        <div class="modal-box">
-          <p class="py-4">Do you really want to clear your code?</p>
-          <form method="dialog">
-            <button id="reset" class="btn">yes</button>
-          </form>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      <button class="btn btn-ghost" onclick="tip.showModal()">TIP</button>
-      <dialog id="tip" class="modal">
-        <div class="modal-box">
-          <ul>
-            <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">Space</kbd> to get autocompletion</li>
-            <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">S</kbd> to print result</li>
-          </ul>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
       <a class="btn btn-link" href="https://github.com/jiang-zhexin/typebox" target="_blank">GitHub</a>
     </div>
   </div>
@@ -51,6 +25,47 @@
     <div id="editor" class="md:min-w-55/100 h-1/2 md:h-full"></div>
     <div id="result" class="md:min-w-45/100 h-1/2 md:h-full"></div>
   </div>
+
+  <div class="fab">
+    <div tabindex="0" role="button" class="btn btn-lg btn-circle btn-info">
+      <svg aria-label="New" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+        stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </div>
+
+    <div class="fab-close">
+      Close <span class="btn btn-circle btn-lg btn-error">✕</span>
+    </div>
+
+    <div>Reset<button class="btn btn-lg btn-circle" onclick="resetCheck.showModal()">R</button></div>
+    <div>TIP<button class="btn btn-lg btn-circle" onclick="tip.showModal()">T</button></div>
+    <div>Download<button class="btn btn-lg btn-circle" id="download">D</button></div>
+  </div>
+
+  <dialog id="resetCheck" class="modal">
+    <div class="modal-box">
+      <p class="py-4">Do you really want to clear your code?</p>
+      <form method="dialog">
+        <button id="reset" class="btn">yes</button>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="tip" class="modal">
+    <div class="modal-box">
+      <ul>
+        <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">Space</kbd> to get autocompletion</li>
+        <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">S</kbd> to print result</li>
+      </ul>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 </body>
 
 </html>

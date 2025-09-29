@@ -12,6 +12,18 @@ resetButten.onclick = () => {
   editor.setValue(defaultCode);
 };
 
+const downloadButten = document.getElementById("download")!;
+downloadButten.onclick = () => {
+  const configFile = result.getValue();
+  const blob = new Blob([configFile], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sing-box-config.json";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
 const editor = monaco.editor.create(document.getElementById("editor")!, {
   automaticLayout: true,
   minimap: { enabled: false },
