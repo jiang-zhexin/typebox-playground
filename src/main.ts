@@ -4,11 +4,14 @@ import { compileCode } from "./compile";
 
 import defaultCode from "../raw_code/playground?raw";
 const codeKey = "typebox-code";
+const resultKey = "typebox-result";
 const saveCode = localStorage.getItem(codeKey) ?? defaultCode;
+const saveResult = localStorage.getItem(resultKey) ?? undefined;
 
 const resetButten = document.getElementById("reset")!;
 resetButten.onclick = () => {
   localStorage.removeItem(codeKey);
+  localStorage.removeItem(resultKey);
   editor.setValue(defaultCode);
 };
 
@@ -41,7 +44,7 @@ editor.setModel(
 );
 
 const result = monaco.editor.create(document.getElementById("result")!, {
-  value: "{}",
+  value: saveResult,
   language: "json",
   automaticLayout: true,
   minimap: { enabled: false },
@@ -51,10 +54,7 @@ const result = monaco.editor.create(document.getElementById("result")!, {
   readOnly: true,
 });
 
-let worker: Worker;
 function executeCode(code: string) {
-  if (worker) worker.terminate();
-
   const blobUrl = URL.createObjectURL(
     new Blob([code], { type: "application/javascript" })
   );
@@ -65,15 +65,18 @@ function executeCode(code: string) {
         `import config from "${blobUrl}";
 config.$schema = "https://github.com/jiang-zhexin/typebox/releases/latest/download/schema.json";
 postMessage(JSON.stringify(config, null, 2));
+close();
 `,
       ],
       { type: "application/javascript" }
     )
   );
-  worker = new Worker(print, { type: "module" });
+  const worker = new Worker(print, { type: "module" });
   worker.onmessage = (e) => {
+    localStorage.setItem(resultKey, e.data);
     result.setValue(e.data);
   };
+  worker.onerror = (e) => console.error(e);
 }
 
 window.addEventListener("keydown", async (e) => {
@@ -84,4 +87,5 @@ window.addEventListener("keydown", async (e) => {
     executeCode(await compileCode(code));
   }
 });
-executeCode(await compileCode(editor.getValue()));
+
+if (!saveResult) executeCode(await compileCode(editor.getValue()));

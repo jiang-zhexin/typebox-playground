@@ -2,12 +2,9 @@ import { initialize, transform } from "esbuild-wasm";
 import esbuildWasmUrl from "esbuild-wasm/esbuild.wasm?url";
 import { packages } from "@babel/standalone";
 
-let isInit = false;
+await initialize({ wasmURL: esbuildWasmUrl });
+
 export async function compileCode(code: string): Promise<string> {
-  if (!isInit) {
-    await initialize({ wasmURL: esbuildWasmUrl });
-    isInit = true;
-  }
   const result = await transform(transformImports(code), {
     loader: "ts",
     format: "esm",
