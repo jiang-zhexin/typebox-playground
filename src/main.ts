@@ -1,12 +1,23 @@
 import "./style.css";
 import * as monaco from "monaco-editor";
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent,
+} from "lz-string";
 import { compileCode } from "./compile";
 
 import defaultCode from "../raw_code/playground?raw";
 const codeKey = "typebox-code";
 const resultKey = "typebox-result";
-const saveCode = localStorage.getItem(codeKey) ?? defaultCode;
-const saveResult = localStorage.getItem(resultKey) ?? undefined;
+
+const lzcode = decompressFromEncodedURIComponent(window.location.hash.slice(1));
+const saveCode = lzcode ??
+  localStorage.getItem(codeKey) ??
+  defaultCode;
+
+const saveResult = lzcode
+  ? undefined
+  : (localStorage.getItem(resultKey) ?? undefined);
 
 const resetButten = document.getElementById("reset")!;
 resetButten.onclick = () => {
@@ -39,8 +50,8 @@ editor.setModel(
   monaco.editor.createModel(
     saveCode,
     "typescript",
-    monaco.Uri.file("playground.ts")
-  )
+    monaco.Uri.file("playground.ts"),
+  ),
 );
 
 const result = monaco.editor.create(document.getElementById("result")!, {
@@ -56,7 +67,7 @@ const result = monaco.editor.create(document.getElementById("result")!, {
 
 function executeCode(code: string) {
   const blobUrl = URL.createObjectURL(
-    new Blob([code], { type: "application/javascript" })
+    new Blob([code], { type: "application/javascript" }),
   );
 
   const print = URL.createObjectURL(
@@ -68,8 +79,8 @@ postMessage(JSON.stringify(config, null, 2));
 close();
 `,
       ],
-      { type: "application/javascript" }
-    )
+      { type: "application/javascript" },
+    ),
   );
   const worker = new Worker(print, { type: "module" });
   worker.onmessage = (e) => {
@@ -84,6 +95,7 @@ window.addEventListener("keydown", async (e) => {
     e.preventDefault();
     const code = editor.getValue();
     localStorage.setItem(codeKey, code);
+    window.location.hash = compressToEncodedURIComponent(code);
     executeCode(await compileCode(code));
   }
 });
