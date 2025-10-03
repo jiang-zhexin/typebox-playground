@@ -23,6 +23,7 @@ const ss_out = createOutbound({
 });
 
 const config = createTypebox({
+  $schema: "https://github.com/jiang-zhexin/typebox/releases/latest/download/schema.json",
   log: {},
   dns: {},
   endpoints: [],

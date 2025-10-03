@@ -74,7 +74,6 @@ function executeCode(code: string) {
     new Blob(
       [
         `import config from "${blobUrl}";
-config.$schema = "https://github.com/jiang-zhexin/typebox/releases/latest/download/schema.json";
 postMessage(JSON.stringify(config, null, 2));
 close();
 `,
