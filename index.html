@@ -43,6 +43,7 @@
     <div>Reset<button class="btn btn-lg btn-circle" onclick="resetCheck.showModal()">R</button></div>
     <div>TIP<button class="btn btn-lg btn-circle" onclick="tip.showModal()">T</button></div>
     <div>Download<button class="btn btn-lg btn-circle" id="download">D</button></div>
+    <div>Share<button class="btn btn-lg btn-circle" id="share">S</button></div>
   </div>
 
   <dialog id="resetCheck" class="modal">
@@ -68,6 +69,12 @@
       <button>close</button>
     </form>
   </dialog>
+
+  <div class="toast toast-center toast-middle" id="codied" hidden>
+    <div class="alert alert-info">
+      <span class="font-bold">URL copied to clipboard</span>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -19,15 +19,15 @@ const saveResult = lzcode
   ? undefined
   : (localStorage.getItem(resultKey) ?? undefined);
 
-const resetButten = document.getElementById("reset")!;
-resetButten.onclick = () => {
+const resetButton = document.getElementById("reset")!;
+resetButton.onclick = () => {
   localStorage.removeItem(codeKey);
   localStorage.removeItem(resultKey);
   editor.setValue(defaultCode);
 };
 
-const downloadButten = document.getElementById("download")!;
-downloadButten.onclick = () => {
+const downloadButton = document.getElementById("download")!;
+downloadButton.onclick = () => {
   const configFile = result.getValue();
   const blob = new Blob([configFile], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -36,6 +36,16 @@ downloadButten.onclick = () => {
   a.download = "sing-box-config.json";
   a.click();
   URL.revokeObjectURL(url);
+};
+
+const shareButton = document.getElementById("share")!;
+shareButton.onclick = () => {
+  const copied = document.getElementById("codied")!;
+  navigator.clipboard.writeText(window.location.href);
+  copied.hidden = false;
+  setTimeout(() => {
+    copied.hidden = true;
+  }, 2000);
 };
 
 const editor = monaco.editor.create(document.getElementById("editor")!, {
