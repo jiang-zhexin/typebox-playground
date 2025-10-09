@@ -40,12 +40,13 @@ downloadButton.onclick = () => {
 
 const shareButton = document.getElementById("share")!;
 shareButton.onclick = () => {
+  const url = new URL(window.location.href);
+  url.hash = compressToEncodedURIComponent(editor.getValue());
+  navigator.clipboard.writeText(url.toString());
+
   const copied = document.getElementById("codied")!;
-  navigator.clipboard.writeText(window.location.href);
   copied.hidden = false;
-  setTimeout(() => {
-    copied.hidden = true;
-  }, 2000);
+  setTimeout(() => copied.hidden = true, 2000);
 };
 
 const editor = monaco.editor.create(document.getElementById("editor")!, {
@@ -104,7 +105,6 @@ window.addEventListener("keydown", async (e) => {
     e.preventDefault();
     const code = editor.getValue();
     localStorage.setItem(codeKey, code);
-    window.location.hash = compressToEncodedURIComponent(code);
     executeCode(await compileCode(code));
   }
 });
