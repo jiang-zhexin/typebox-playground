@@ -1,80 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typebox Playground</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "@zhexin/typebox": "https://esm.sh/jsr/@zhexin/typebox",
+          "@zhexin/typebox/": "https://esm.sh/jsr/@zhexin/typebox/"
+        }
+      }
+    </script>
+    <script
+      defer
+      src="https://umami.zhexin.org/script.js"
+      data-website-id="0586a54a-9455-4458-8a5a-3ab4063ca302"
+      data-domains="typebox.zhexin.org"
+      data-exclude-hash="true"
+    ></script>
+    <script type="module" src="/src/setup.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Typebox Playground</title>
-  <script defer src="https://umami.zhexin.org/script.js" data-website-id="0586a54a-9455-4458-8a5a-3ab4063ca302"
-    data-domains="typebox.zhexin.org" data-exclude-hash="true"></script>
-  <script type="module" src="/src/setup.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
+  <body>
+    <div class="navbar bg-base-100 shadow-sm">
+      <div class="flex-1">
+        <h1 class="text-xl font-bold mx-4">Typebox Playground</h1>
+      </div>
 
-<body>
-  <div class="navbar bg-base-100 shadow-sm">
-    <div class="flex-1">
-      <h1 class="text-xl font-bold mx-4">Typebox Playground</h1>
+      <div class="flex-none">
+        <a
+          class="btn btn-link"
+          href="https://github.com/jiang-zhexin/typebox"
+          target="_blank"
+        >GitHub</a>
+      </div>
     </div>
 
-    <div class="flex-none">
-      <a class="btn btn-link" href="https://github.com/jiang-zhexin/typebox" target="_blank">GitHub</a>
-    </div>
-  </div>
-
-  <div class="w-screen h-[calc(100vh-64px)] md:flex ">
-    <div id="editor" class="md:min-w-55/100 h-1/2 md:h-full"></div>
-    <div id="result" class="md:min-w-45/100 h-1/2 md:h-full"></div>
-  </div>
-
-  <div class="fab">
-    <div tabindex="0" role="button" class="btn btn-lg btn-circle btn-info">
-      <svg aria-label="New" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-        stroke="currentColor" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
+    <div class="w-screen h-[calc(100vh-64px)] md:flex">
+      <div id="editor" class="md:min-w-55/100 h-1/2 md:h-full"></div>
+      <div id="result" class="md:min-w-45/100 h-1/2 md:h-full"></div>
     </div>
 
-    <div class="fab-close">
-      Close <span class="btn btn-circle btn-lg btn-error">✕</span>
+    <div class="fab">
+      <div tabindex="0" role="button" class="btn btn-lg btn-circle btn-info">
+        <svg
+          aria-label="New"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+          />
+        </svg>
+      </div>
+
+      <div class="fab-close">
+        Close <span class="btn btn-circle btn-lg btn-error">✕</span>
+      </div>
+
+      <div>
+        Reset<button
+          class="btn btn-lg btn-circle"
+          onclick="resetCheck.showModal()"
+        >
+          R
+        </button>
+      </div>
+      <div>
+        TIP<button class="btn btn-lg btn-circle" onclick="tip.showModal()">
+          T
+        </button>
+      </div>
+      <div>
+        Download<button class="btn btn-lg btn-circle" id="download">D</button>
+      </div>
+      <div>
+        Share<button class="btn btn-lg btn-circle" id="share">S</button>
+      </div>
     </div>
 
-    <div>Reset<button class="btn btn-lg btn-circle" onclick="resetCheck.showModal()">R</button></div>
-    <div>TIP<button class="btn btn-lg btn-circle" onclick="tip.showModal()">T</button></div>
-    <div>Download<button class="btn btn-lg btn-circle" id="download">D</button></div>
-    <div>Share<button class="btn btn-lg btn-circle" id="share">S</button></div>
-  </div>
-
-  <dialog id="resetCheck" class="modal">
-    <div class="modal-box">
-      <p class="py-4">Do you really want to clear your code?</p>
-      <form method="dialog">
-        <button id="reset" class="btn">yes</button>
+    <dialog id="resetCheck" class="modal">
+      <div class="modal-box">
+        <p class="py-4">Do you really want to clear your code?</p>
+        <form method="dialog">
+          <button id="reset" class="btn">yes</button>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
       </form>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>
+    </dialog>
 
-  <dialog id="tip" class="modal">
-    <div class="modal-box">
-      <ul>
-        <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">Space</kbd> to get autocompletion</li>
-        <li><kbd class="kbd">Control</kbd> + <kbd class="kbd">S</kbd> to print result</li>
-      </ul>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>
+    <dialog id="tip" class="modal">
+      <div class="modal-box">
+        <ul>
+          <li>
+            <kbd class="kbd">Control</kbd> + <kbd class="kbd">Space</kbd> to get
+            autocompletion
+          </li>
+          <li>
+            <kbd class="kbd">Control</kbd> + <kbd class="kbd">S</kbd> to print
+            result
+          </li>
+        </ul>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
 
-  <div class="toast toast-center toast-middle" id="codied" hidden>
-    <div class="alert alert-info">
-      <span class="font-bold">URL copied to clipboard</span>
+    <div class="toast toast-center toast-middle" id="codied" hidden>
+      <div class="alert alert-info">
+        <span class="font-bold">URL copied to clipboard</span>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>

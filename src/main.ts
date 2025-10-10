@@ -77,27 +77,17 @@ const result = monaco.editor.create(document.getElementById("result")!, {
 });
 
 function executeCode(code: string) {
-  const blobUrl = URL.createObjectURL(
-    new Blob([code], { type: "application/javascript" }),
-  );
-
-  const print = URL.createObjectURL(
-    new Blob(
-      [
-        `import config from "${blobUrl}";
-postMessage(JSON.stringify(config, null, 2));
-close();
-`,
-      ],
-      { type: "application/javascript" },
-    ),
-  );
-  const worker = new Worker(print, { type: "module" });
-  worker.onmessage = (e) => {
-    localStorage.setItem(resultKey, e.data);
-    result.setValue(e.data);
-  };
-  worker.onerror = (e) => console.error(e);
+  import(
+    /* @vite-ignore */ URL.createObjectURL(
+      new Blob([code], { type: "application/javascript" }),
+    )
+  )
+    .then((code) => {
+      const config = JSON.stringify(code.default, null, 2);
+      localStorage.setItem(resultKey, config);
+      result.setValue(config);
+    })
+    .catch((e) => console.error(e));
 }
 
 window.addEventListener("keydown", async (e) => {
