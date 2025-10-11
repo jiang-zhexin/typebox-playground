@@ -109,9 +109,10 @@ monaco.editor.createModel(
 );
 
 monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+  target: monaco.languages.typescript.ScriptTarget.ESNext,
+  module: monaco.languages.typescript.ModuleKind.ESNext,
   allowSyntheticDefaultImports: true,
   moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
   allowNonTsExtensions: true,
-  target: monaco.languages.typescript.ScriptTarget.ESNext,
   isolatedModules: true,
 });
