@@ -4,6 +4,7 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
+import "./setup";
 import { compileCode } from "./compile";
 
 import defaultCode from "../raw_code/playground?raw";

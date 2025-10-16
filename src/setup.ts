@@ -18,94 +18,79 @@ self.MonacoEnvironment = {
 };
 
 import typebox from "../raw_code/typebox/mod.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   typebox,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/index.ts"),
+  "file:///node_modules/@zhexin/typebox/index.ts",
 );
 import certificate from "../raw_code/typebox/certificate.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   certificate,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/certificate.ts"),
+  "file:///node_modules/@zhexin/typebox/certificate.ts",
 );
 import dns from "../raw_code/typebox/dns.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   dns,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/dns.ts"),
+  "file:///node_modules/@zhexin/typebox/dns.ts",
 );
 import endpoint from "../raw_code/typebox/endpoint.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   endpoint,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/endpoint.ts"),
+  "file:///node_modules/@zhexin/typebox/endpoint.ts",
 );
 import experimental from "../raw_code/typebox/experimental.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   experimental,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/experimental.ts"),
+  "file:///node_modules/@zhexin/typebox/experimental.ts",
 );
 import inbound from "../raw_code/typebox/inbound.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   inbound,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/inbound.ts"),
+  "file:///node_modules/@zhexin/typebox/inbound.ts",
 );
 import log from "../raw_code/typebox/log.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   log,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/log.ts"),
+  "file:///node_modules/@zhexin/typebox/log.ts",
 );
 import ntp from "../raw_code/typebox/ntp.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   ntp,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/ntp.ts"),
+  "file:///node_modules/@zhexin/typebox/ntp.ts",
 );
 import outbound from "../raw_code/typebox/outbound.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   outbound,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/outbound.ts"),
+  "file:///node_modules/@zhexin/typebox/outbound.ts",
 );
 import route from "../raw_code/typebox/route.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   route,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/route.ts"),
+  "file:///node_modules/@zhexin/typebox/route.ts",
 );
 import rule from "../raw_code/typebox/rule.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   rule,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/rule.ts"),
+  "file:///node_modules/@zhexin/typebox/rule.ts",
 );
 import service from "../raw_code/typebox/service.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   service,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/service.ts"),
+  "file:///node_modules/@zhexin/typebox/service.ts",
 );
 import tls from "../raw_code/typebox/tls.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   tls,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/tls.ts"),
+  "file:///node_modules/@zhexin/typebox/tls.ts",
 );
 import transport from "../raw_code/typebox/transport.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   transport,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/transport.ts"),
+  "file:///node_modules/@zhexin/typebox/transport.ts",
 );
 import types from "../raw_code/typebox/types.ts?raw";
-monaco.editor.createModel(
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
   types,
-  "typescript",
-  monaco.Uri.parse("node_modules/@zhexin/typebox/types.ts"),
+  "file:///node_modules/@zhexin/typebox/types.ts",
 );
 
 monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
