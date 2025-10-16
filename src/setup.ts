@@ -46,7 +46,7 @@ Object
     const o = document.createElement("option");
     o.selected = v === metadata.latest;
     o.value = v;
-    o.textContent = v;
+    o.textContent = `v${v}`;
     versionSelect.appendChild(o);
   });
 
