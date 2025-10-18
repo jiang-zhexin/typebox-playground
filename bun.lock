@@ -10,7 +10,7 @@
       },
       "devDependencies": {
         "@tailwindcss/vite": "^4.1.14",
-        "daisyui": "^5.3.3",
+        "daisyui": "^5.3.7",
         "tailwindcss": "^4.1.14",
         "vite": "npm:rolldown-vite@^7.1.17",
       },
@@ -107,7 +107,7 @@
 
     "chownr": ["chownr@3.0.0", "", {}, "sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g=="],
 
-    "daisyui": ["daisyui@5.3.3", "", {}, "sha512-led/Thra8tVIZYf/yr97uuNGFVmM2fYhTX8c7pUeFGLjYlY3j+KnjKGIqKGc8O7QNHFUxAmSWkSzq4UkX+bEJQ=="],
+    "daisyui": ["daisyui@5.3.7", "", {}, "sha512-0+8PaSGift0HlIQABCeZzWOBV5Nx/vsI2TihB9hbaEyZENPlZZz+se2JnAH5rz9gBYTyDLB7NJup8hkREr6WBw=="],
 
     "detect-libc": ["detect-libc@2.1.1", "", {}, "sha512-ecqj/sy1jcK1uWrwpR67UhYrIFQ+5WlGxth34WquCbamhFA6hkkwiu37o6J5xCHdo1oixJRfVRw+ywV+Hq/0Aw=="],
 

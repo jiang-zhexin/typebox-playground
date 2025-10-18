@@ -7,24 +7,31 @@ import {
 import "./setup";
 import { compileCode } from "./compile";
 
-import defaultCode from "../raw_code/playground?raw";
 const codeKey = "typebox-code";
 const resultKey = "typebox-result";
+
+const getDefaultCode = (() => {
+  let defaultCode: string;
+  return async () => {
+    defaultCode ??= await fetch("/playground.ts").then((resp) => resp.text());
+    return defaultCode;
+  };
+})();
 
 const lzcode = decompressFromEncodedURIComponent(window.location.hash.slice(1));
 const saveCode = lzcode ??
   localStorage.getItem(codeKey) ??
-  defaultCode;
+  await getDefaultCode();
 
 const saveResult = lzcode
   ? undefined
   : (localStorage.getItem(resultKey) ?? undefined);
 
 const resetButton = document.getElementById("reset")!;
-resetButton.onclick = () => {
+resetButton.onclick = async () => {
   localStorage.removeItem(codeKey);
   localStorage.removeItem(resultKey);
-  editor.setValue(defaultCode);
+  editor.setValue(await getDefaultCode());
 };
 
 const downloadButton = document.getElementById("download")!;
