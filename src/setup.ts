@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import { languages } from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
@@ -61,7 +61,7 @@ async function setLib() {
     d: `${prefix}/${name}${f === "/mod.ts" ? "/index.ts" : f}`,
   }));
 
-  monaco.languages.typescript.typescriptDefaults.setExtraLibs(
+  languages.typescript.typescriptDefaults.setExtraLibs(
     await Promise.all(
       packetImport.map(({ s, d }) =>
         fetch(s)
@@ -79,11 +79,11 @@ versionSelect.onchange = setLib;
 
 await setLib();
 
-monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-  target: monaco.languages.typescript.ScriptTarget.ESNext,
-  module: monaco.languages.typescript.ModuleKind.ESNext,
+languages.typescript.typescriptDefaults.setCompilerOptions({
+  target: languages.typescript.ScriptTarget.ESNext,
+  module: languages.typescript.ModuleKind.ESNext,
   allowSyntheticDefaultImports: true,
-  moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+  moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
   allowNonTsExtensions: true,
   isolatedModules: true,
 });

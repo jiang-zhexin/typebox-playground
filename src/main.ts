@@ -1,5 +1,5 @@
 import "./style.css";
-import * as monaco from "monaco-editor";
+import { editor, Uri } from "monaco-editor";
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
@@ -31,7 +31,7 @@ const resetButton = document.getElementById("reset")!;
 resetButton.onclick = async () => {
   localStorage.removeItem(codeKey);
   localStorage.removeItem(resultKey);
-  editor.setValue(await getDefaultCode());
+  edit.setValue(await getDefaultCode());
 };
 
 const downloadButton = document.getElementById("download")!;
@@ -49,7 +49,7 @@ downloadButton.onclick = () => {
 const shareButton = document.getElementById("share")!;
 shareButton.onclick = () => {
   const url = new URL(window.location.href);
-  url.hash = compressToEncodedURIComponent(editor.getValue());
+  url.hash = compressToEncodedURIComponent(edit.getValue());
   navigator.clipboard.writeText(url.toString());
 
   const copied = document.getElementById("codied")!;
@@ -57,7 +57,7 @@ shareButton.onclick = () => {
   setTimeout(() => copied.hidden = true, 2000);
 };
 
-const editor = monaco.editor.create(document.getElementById("editor")!, {
+const edit = editor.create(document.getElementById("editor")!, {
   automaticLayout: true,
   minimap: { enabled: false },
   scrollBeyondLastLine: false,
@@ -65,15 +65,15 @@ const editor = monaco.editor.create(document.getElementById("editor")!, {
   quickSuggestions: true,
 });
 
-editor.setModel(
-  monaco.editor.createModel(
+edit.setModel(
+  editor.createModel(
     saveCode,
     "typescript",
-    monaco.Uri.file("playground.ts"),
+    Uri.file("playground.ts"),
   ),
 );
 
-const result = monaco.editor.create(document.getElementById("result")!, {
+const result = editor.create(document.getElementById("result")!, {
   value: saveResult,
   language: "json",
   automaticLayout: true,
@@ -101,10 +101,10 @@ function executeCode(code: string) {
 window.addEventListener("keydown", async (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === "s") {
     e.preventDefault();
-    const code = editor.getValue();
+    const code = edit.getValue();
     localStorage.setItem(codeKey, code);
     executeCode(await compileCode(code));
   }
 });
 
-if (!saveResult) executeCode(await compileCode(editor.getValue()));
+if (!saveResult) executeCode(await compileCode(edit.getValue()));
