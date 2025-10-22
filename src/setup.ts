@@ -82,8 +82,14 @@ await setLib();
 languages.typescript.typescriptDefaults.setCompilerOptions({
   target: languages.typescript.ScriptTarget.ESNext,
   module: languages.typescript.ModuleKind.ESNext,
-  allowSyntheticDefaultImports: true,
+
   moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
-  allowNonTsExtensions: true,
-  isolatedModules: true,
+  noEmit: true,
+
+  strict: true,
+  skipLibCheck: true,
+  noFallthroughCasesInSwitch: true,
+
+  noUnusedLocals: false,
+  noUnusedParameters: false,
 });
