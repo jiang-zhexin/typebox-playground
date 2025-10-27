@@ -2,6 +2,8 @@ import { languages } from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+
+import { format, maxSatisfying, parse, parseRange } from "@std/semver";
 import type { PacketMetadata, PacketVersionMetadata } from "./types";
 
 //@ts-ignore
@@ -28,27 +30,19 @@ const versionSelect = document.getElementById(
 const metadata: PacketMetadata = await fetch(`${registry}/${name}/meta.json`)
   .then((resp) => resp.json());
 
-Object
+const versions = Object
   .entries(metadata.versions)
   .filter(([_, info]) => info.yanked !== true)
-  .sort(([v1], [v2]) => {
-    const parts1 = v1.split(".").map(Number);
-    const parts2 = v2.split(".").map(Number);
-    for (let i = 0; i < 3; i++) {
-      const p1 = parts1.at(i) ?? 0;
-      const p2 = parts2.at(i) ?? 0;
-      if (p1 > p2) return -1;
-      if (p1 < p2) return 1;
-    }
-    return 0;
-  })
-  .map(([v]) => {
+  .map(([v]) => parse(v));
+
+versionSelect.replaceChildren(...["1.12.x", "1.13.x", "1.11.x", "1.10.x"]
+  .map((v) => {
+    const version = format(maxSatisfying(versions, parseRange(v))!);
     const o = document.createElement("option");
-    o.selected = v === metadata.latest;
-    o.value = v;
-    o.textContent = `v${v}`;
-    versionSelect.appendChild(o);
-  });
+    o.value = version;
+    o.textContent = `v${version}`;
+    return o;
+  }));
 
 async function setLib() {
   const version = versionSelect.value;
@@ -61,18 +55,15 @@ async function setLib() {
     d: `${prefix}/${name}${f === "/mod.ts" ? "/index.ts" : f}`,
   }));
 
-  languages.typescript.typescriptDefaults.setExtraLibs(
-    await Promise.all(
-      packetImport.map(({ s, d }) =>
-        fetch(s)
-          .then((r) => r.text())
-          .then((code) => ({
-            content: code,
-            filePath: d,
-          }))
-      ),
+  const libs = await Promise.all(
+    packetImport.map(({ s, d }) =>
+      fetch(s)
+        .then((r) => r.text())
+        .then((code) => ({ content: code, filePath: d }))
     ),
   );
+
+  languages.typescript.typescriptDefaults.setExtraLibs(libs);
 }
 
 versionSelect.onchange = setLib;
