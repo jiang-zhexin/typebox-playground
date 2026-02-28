@@ -35,7 +35,7 @@ const versions = Object
   .filter(([_, info]) => info.yanked !== true)
   .map(([v]) => parse(v));
 
-versionSelect.replaceChildren(...["1.12.x", "1.13.x", "1.11.x", "1.10.x"]
+versionSelect.replaceChildren(...["1.13.x", "1.12.x", "1.11.x", "1.10.x"]
   .map((v) => {
     const version = format(maxSatisfying(versions, parseRange(v))!);
     const o = document.createElement("option");
