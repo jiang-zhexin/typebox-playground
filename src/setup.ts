@@ -1,4 +1,4 @@
-import { languages } from "monaco-editor";
+import { typescript } from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
@@ -35,14 +35,16 @@ const versions = Object
   .filter(([_, info]) => info.yanked !== true)
   .map(([v]) => parse(v));
 
-versionSelect.replaceChildren(...["1.13.x", "1.12.x", "1.11.x", "1.10.x"]
-  .map((v) => {
-    const version = format(maxSatisfying(versions, parseRange(v))!);
-    const o = document.createElement("option");
-    o.value = version;
-    o.textContent = `v${version}`;
-    return o;
-  }));
+versionSelect.replaceChildren(
+  ...["1.14.x", "1.13.x", "1.12.x", "1.11.x", "1.10.x"]
+    .map((v) => {
+      const version = format(maxSatisfying(versions, parseRange(v))!);
+      const o = document.createElement("option");
+      o.value = version;
+      o.textContent = `v${version}`;
+      return o;
+    }),
+);
 
 async function setLib() {
   const version = versionSelect.value;
@@ -63,18 +65,18 @@ async function setLib() {
     ),
   );
 
-  languages.typescript.typescriptDefaults.setExtraLibs(libs);
+  typescript.typescriptDefaults.setExtraLibs(libs);
 }
 
 versionSelect.onchange = setLib;
 
 await setLib();
 
-languages.typescript.typescriptDefaults.setCompilerOptions({
-  target: languages.typescript.ScriptTarget.ESNext,
-  module: languages.typescript.ModuleKind.ESNext,
+typescript.typescriptDefaults.setCompilerOptions({
+  target: typescript.ScriptTarget.ESNext,
+  module: typescript.ModuleKind.ESNext,
 
-  moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
+  moduleResolution: typescript.ModuleResolutionKind.NodeJs,
   noEmit: true,
 
   strict: true,
