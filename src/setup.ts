@@ -1,14 +1,12 @@
+import { format, maxSatisfying, parse, parseRange } from "@std/semver";
 import { typescript } from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+import * as C from "./constant.ts";
+import type { PacketMetadata, PacketVersionMetadata } from "./types.ts";
 
-import { format, maxSatisfying, parse, parseRange } from "@std/semver";
-import type { PacketMetadata, PacketVersionMetadata } from "./types";
-
-//@ts-ignore
 self.MonacoEnvironment = {
-  //@ts-ignore
   getWorker(_, label) {
     if (label === "json") {
       return new jsonWorker();
@@ -20,14 +18,13 @@ self.MonacoEnvironment = {
   },
 };
 
-const registry = "https://jsr.io";
-const name = "@zhexin/typebox";
-const prefix = "file:///node_modules";
 const versionSelect = document.getElementById(
   "version-select",
 )! as HTMLSelectElement;
 
-const metadata: PacketMetadata = await fetch(`${registry}/${name}/meta.json`)
+const metadata: PacketMetadata = await fetch(
+  `${C.registry}/${C.packageName}/meta.json`,
+)
   .then((resp) => resp.json());
 
 const versions = Object
@@ -49,12 +46,12 @@ versionSelect.replaceChildren(
 async function setLib() {
   const version = versionSelect.value;
   const vm: PacketVersionMetadata = await fetch(
-    `${registry}/${name}/${version}_meta.json`,
+    `${C.registry}/${C.packageName}/${version}_meta.json`,
   ).then((r) => r.json());
 
   const packetImport = Object.keys(vm.manifest).map((f) => ({
-    s: `${registry}/${name}/${version}${f}`,
-    d: `${prefix}/${name}${f === "/mod.ts" ? "/index.ts" : f}`,
+    s: `${C.registry}/${C.packageName}/${version}${f}`,
+    d: `${C.prefix}/${C.packageName}${f === "/mod.ts" ? "/index.ts" : f}`,
   }));
 
   const libs = await Promise.all(

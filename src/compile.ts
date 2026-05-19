@@ -1,6 +1,6 @@
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
 
-export async function compileCode(code: string): Promise<string> {
+export function compileCode(code: string): string {
   const result = transpileModule(code, {
     compilerOptions: {
       module: ModuleKind.ESNext,

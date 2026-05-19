@@ -1,14 +1,12 @@
-import "./style.css";
-import { editor, Uri } from "monaco-editor";
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
-import "./setup";
-import { compileCode } from "./compile";
-
-const codeKey = "typebox-code";
-const resultKey = "typebox-result";
+import { editor, Uri } from "monaco-editor";
+import { compileCode } from "./compile.ts";
+import * as C from "./constant.ts";
+import "./setup.ts";
+import "./style.css";
 
 const getDefaultCode = (() => {
   let defaultCode: string;
@@ -18,19 +16,21 @@ const getDefaultCode = (() => {
   };
 })();
 
-const lzcode = decompressFromEncodedURIComponent(window.location.hash.slice(1));
+const lzcode = decompressFromEncodedURIComponent(
+  globalThis.location.hash.slice(1),
+);
 const saveCode = lzcode ??
-  localStorage.getItem(codeKey) ??
+  localStorage.getItem(C.codeKey) ??
   await getDefaultCode();
 
 const saveResult = lzcode
   ? undefined
-  : (localStorage.getItem(resultKey) ?? undefined);
+  : (localStorage.getItem(C.resultKey) ?? undefined);
 
 const resetButton = document.getElementById("reset")!;
 resetButton.onclick = async () => {
-  localStorage.removeItem(codeKey);
-  localStorage.removeItem(resultKey);
+  localStorage.removeItem(C.codeKey);
+  localStorage.removeItem(C.resultKey);
   edit.setValue(await getDefaultCode());
 };
 
@@ -48,7 +48,7 @@ downloadButton.onclick = () => {
 
 const shareButton = document.getElementById("share")!;
 shareButton.onclick = () => {
-  const url = new URL(window.location.href);
+  const url = new URL(globalThis.location.href);
   url.hash = compressToEncodedURIComponent(edit.getValue());
   navigator.clipboard.writeText(url.toString());
 
@@ -92,19 +92,19 @@ function executeCode(code: string) {
   )
     .then((code) => {
       const config = JSON.stringify(code.default, null, 2);
-      localStorage.setItem(resultKey, config);
+      localStorage.setItem(C.resultKey, config);
       result.setValue(config);
     })
     .catch((e) => console.error(e));
 }
 
-window.addEventListener("keydown", async (e) => {
+globalThis.addEventListener("keydown", (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === "s") {
     e.preventDefault();
     const code = edit.getValue();
-    localStorage.setItem(codeKey, code);
-    executeCode(await compileCode(code));
+    localStorage.setItem(C.codeKey, code);
+    executeCode(compileCode(code));
   }
 });
 
-if (!saveResult) executeCode(await compileCode(edit.getValue()));
+if (!saveResult) executeCode(compileCode(edit.getValue()));
